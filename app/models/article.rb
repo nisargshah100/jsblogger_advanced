@@ -1,6 +1,8 @@
 class Article < ActiveRecord::Base
   validates :title, :presence => true, :uniqueness => true
   validates :body, :presence => true
+  after_create :enqueue_total_word_count
+
 
   has_many :comments
   has_many :taggings
@@ -47,6 +49,10 @@ class Article < ActiveRecord::Base
     order('created_at DESC').limit(5)
   end
 
+  def very_slow_query
+    sleep 3
+  end
+
   def word_count
     body.split.count
   end
@@ -67,5 +73,11 @@ class Article < ActiveRecord::Base
       end
       yield if block_given?
     end
+  end
+
+  private
+
+  def enqueue_total_word_count
+    Resque.enqueue(CommentTotalWordCount)
   end
 end

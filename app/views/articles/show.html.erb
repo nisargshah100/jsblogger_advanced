@@ -13,14 +13,18 @@
 
 <h3><%= pluralize @article.comments.count, "Comment" %></h3>
 
-<% @article.comments.each do |comment| %>
-  <div class='comment'>
-    <p>
-      <em><%= comment.author_name %></em>
-      said <%= distance_of_time_in_words(@article.created_at, comment.created_at) %> later:
-    </p>
-    <p><%= comment.body %></p>
-  </div>
+<!-- JUST FOR CACHING EXAMPLE -->
+<% cache do %>
+  <% @article.very_slow_query %>
+  <% @article.comments.each do |comment| %>
+    <div class='comment'>
+      <p>
+        <em><%= comment.author_name %></em>
+        said <%= distance_of_time_in_words(@article.created_at, comment.created_at) %> later:
+      </p>
+      <p><%= comment.body %></p>
+    </div>
+  <% end %>
 <% end %>
 
 <h4>Add Your Comment</h4>

@@ -4,6 +4,7 @@ source 'http://rubygems.org'
 gem 'rails', :git => 'https://github.com/rails/rails.git', :branch => "3-2-stable"
 gem 'sqlite3'
 gem 'jquery-rails'
+gem 'resque'
 
 group :assets do
   gem 'sass-rails'
